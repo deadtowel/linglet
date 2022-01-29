@@ -1,7 +1,15 @@
-import React from 'react';
+import { Box } from '@mui/material';
+import { usePalette } from '../hooks/usePalette';
 
 const Header = () => {
-	return <div style={{ backgroundColor: 'aliceblue' }}>Header</div>;
+	const { primary, white } = usePalette();
+
+	const styles = {
+		background: primary,
+		color: white,
+	};
+
+	return <Box sx={styles}>Header</Box>;
 };
 
 export default Header;

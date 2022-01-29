@@ -1,5 +1,12 @@
-import React from 'react';
+import { usePalette } from '../hooks/usePalette';
 
 export default function Footer() {
-	return <div style={{ backgroundColor: 'aliceblue' }}>footer</div>;
+	const { secondary, white } = usePalette();
+
+	const styles = {
+		background: secondary,
+		color: white,
+	};
+
+	return <div style={styles}>footer</div>;
 }

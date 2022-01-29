@@ -1,9 +1,10 @@
-import Home from './pages/Home';
-import Header from './components/Header';
+import { Box, Container } from '@mui/material';
+import { Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
+import Header from './components/Header';
+import CreateSet from './pages/CreateSet';
+import Home from './pages/Home';
 import Set from './pages/Set';
-import { Routes, Route } from 'react-router-dom';
-import { Box } from '@mui/material';
 
 function App() {
 	const style: any = {
@@ -17,12 +18,13 @@ function App() {
 	return (
 		<div className='App' style={style}>
 			<Header />
-			<Box sx={{ flex: '1 0 auto' }}>
+			<Container sx={{ flex: '1 0 auto' }}>
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/set1' element={<Set id={1} />} />
+					<Route path='/create-set' element={<CreateSet />} />
+					<Route path='/set:setId' element={<Set />} />
 				</Routes>
-			</Box>
+			</Container>
 			<Footer />
 		</div>
 	);
