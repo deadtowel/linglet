@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Set from './pages/Set';
 
 function App() {
-	const style: any = {
+	const AppStyle: any = {
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'center',
@@ -15,10 +15,12 @@ function App() {
 		minHeight: '100vh',
 	};
 
+	const ContainerStyle: any = { flex: '1 0 auto' };
+
 	return (
-		<div className='App' style={style}>
+		<div className='App' style={AppStyle}>
 			<Header />
-			<Container sx={{ flex: '1 0 auto' }}>
+			<Container sx={ContainerStyle}>
 				<Routes>
 					<Route path='/' element={<Home />} />
 					<Route path='/create-set' element={<CreateSet />} />

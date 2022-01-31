@@ -24,12 +24,8 @@ export const useSets = () => {
         localStorage.setItem('sets', JSON.stringify(sets));
     }, [sets]);
 
-    const addSet = () => {
-        setSets([...sets, {
-            title: 'Placeholder set',
-            cardsAmount: 10,
-            id: Date.now(),
-        }])
+    const addSet = (newSet: ISet) => {
+        setSets([...sets, { ...newSet, id: Date.now() }]);
     }
 
     const clearSets = () => {

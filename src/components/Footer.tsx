@@ -8,5 +8,5 @@ export default function Footer() {
 		color: white,
 	};
 
-	return <div style={styles}>footer</div>;
+	return <div style={styles}>Powered by Unity</div>;
 }

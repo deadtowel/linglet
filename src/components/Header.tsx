@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { usePalette } from '../hooks/usePalette';
 
 const Header = () => {
@@ -9,7 +10,13 @@ const Header = () => {
 		color: white,
 	};
 
-	return <Box sx={styles}>Header</Box>;
+	return (
+		<Box sx={styles}>
+			<Link to='/'>
+				<h2>Header</h2>
+			</Link>
+		</Box>
+	);
 };
 
 export default Header;

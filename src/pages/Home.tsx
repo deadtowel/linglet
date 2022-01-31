@@ -20,16 +20,13 @@ export default function Home() {
 			<Typography variant='body1'>Home page</Typography>
 			<Box sx={buttonBoxStyles}>
 				<Link to='/create-set'>
-					<Button variant='contained' onClick={() => addSet()}>
-						New Set
-					</Button>
+					<Button variant='contained'>New Set</Button>
 				</Link>
 				<Button
 					variant='contained'
 					color='error'
 					onClick={() => clearSets()}
 					sx={buttonStyles}
-					disabled
 				>
 					Clear sets
 				</Button>

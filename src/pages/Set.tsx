@@ -21,6 +21,7 @@ const Set: FC<SetProps> = () => {
 			<h2>Set with {currentSet?.id} id</h2>
 			<h2>Title: {currentSet?.title}</h2>
 			<h2>It contains {currentSet?.cardsAmount} cards</h2>
+			<p>Descriptiom: {currentSet?.description}</p>
 		</div>
 	);
 };
