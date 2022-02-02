@@ -1,19 +1,21 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { usePalette } from '../hooks/usePalette';
+import Logo from '../assets/Logo.svg';
 
 const Header = () => {
 	const { primary, white } = usePalette();
 
-	const styles = {
+	const ContainerStyles: React.CSSProperties = {
 		background: primary,
 		color: white,
+		padding: '1.3rem 1.5rem 1rem',
 	};
 
 	return (
-		<Box sx={styles}>
+		<Box sx={ContainerStyles}>
 			<Link to='/'>
-				<h2>Header</h2>
+				<img src={Logo} alt='logo' height='30rem' />
 			</Link>
 		</Box>
 	);

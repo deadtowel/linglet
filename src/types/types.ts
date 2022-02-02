@@ -1,6 +1,6 @@
 export interface ISet {
-    title: string,
-    description: string,
-    cardsAmount: number,
-    id?: number,
+  title: string,
+  description: string,
+  cardsAmount: number,
+  id?: number,
 }

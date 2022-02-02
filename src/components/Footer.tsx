@@ -1,12 +1,16 @@
-import { usePalette } from '../hooks/usePalette';
+import { useTheme } from '@mui/material';
+import styled from '@emotion/styled';
+
+const StyledFooter = styled.div`
+  background: ${(props) => props.color};
+`;
 
 export default function Footer() {
-	const { secondary, white } = usePalette();
+  const theme = useTheme();
 
-	const styles = {
-		background: secondary,
-		color: white,
-	};
-
-	return <div style={styles}>Powered by Unity</div>;
+  return (
+    <StyledFooter color={theme.palette.primary.main}>
+      © 2022 Linglet Inc.
+    </StyledFooter>
+  );
 }

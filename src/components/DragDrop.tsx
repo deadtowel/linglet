@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 
 const fileTypes = ['JPG', 'PNG', 'GIF'];
@@ -10,8 +10,26 @@ function DragDrop() {
 
 		setFile(file);
 	};
+
 	return (
-		<FileUploader handleChange={handleChange} name='file' types={fileTypes} />
+		<FileUploader
+			handleChange={handleChange}
+			name='file'
+			types={fileTypes}
+			children={
+				<div
+					style={{
+						width: '100%',
+						height: '100%',
+						border: '3px dashed lightblue',
+						cursor: 'pointer',
+						color: 'lightblue',
+					}}
+				>
+					Drag Drop File
+				</div>
+			}
+		/>
 	);
 }
 

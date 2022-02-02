@@ -6,7 +6,9 @@ export const usePalette = () => {
 
   return {
     primary: theme.palette.primary.dark,
-    secondary: theme.palette.secondary.light,
+    secondary: theme.palette.secondary.main,
     white: theme.palette.common.white,
   };
 }
+
+export default usePalette;
