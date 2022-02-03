@@ -5,31 +5,33 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import CreateSet from './pages/CreateSet';
 import Home from './pages/Home';
-import Set from './pages/Set';
+import StudySet from './pages/StudySet';
 
-const StyledApp = styled('div')`
+const StyledApp = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
   min-height: 100vh;
+  background-color: ${(props) => props.color};
+`;
 
-  .Main-Container {
-    flex: 1 0 auto;
-  }
+const MainContainer = styled(Container)`
+  flex: 1 0 auto;
+  padding: 1rem 0;
 `;
 
 function App() {
   return (
     <StyledApp>
       <Header />
-      <Container className='Main-Container'>
+      <MainContainer>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/create-set' element={<CreateSet />} />
-          <Route path='/set:setId' element={<Set />} />
+          <Route path='/set:setId' element={<StudySet />} />
         </Routes>
-      </Container>
+      </MainContainer>
       <Footer />
     </StyledApp>
   );

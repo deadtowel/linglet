@@ -25,7 +25,7 @@ export const useSets = () => {
     }, [sets]);
 
     const addSet = (newSet: ISet) => {
-        setSets([...sets, { ...newSet, id: Date.now() }]);
+        setSets([...sets, { ...newSet }]);
     }
 
     const clearSets = () => {
