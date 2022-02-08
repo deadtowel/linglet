@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import CreateSet from './pages/CreateSet';
 import Home from './pages/Home';
-import StudySet from './pages/StudySet';
+import StudySet from './pages/LearnSet';
 
 const StyledApp = styled.div`
   display: flex;

@@ -5,7 +5,7 @@ import DragDrop from '../components/DragDrop';
 import { useNavigate } from 'react-router-dom';
 import TermCard from '../components/TermCard';
 import styled from '@emotion/styled';
-import { ITerm } from '../types/types';
+import { ITerm, TermFormsValues } from '../types/types';
 import { generateId } from '../utils/generateId';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -26,39 +26,61 @@ const SetTextField = styled(TextField)`
 `;
 
 export default function CreateSet() {
-  const [terms, setTerms] = useState<ITerm[]>([]);
-
   const { addSet } = useSets();
 
   const navigate = useNavigate();
 
-  const createButtonClickHandler = (e: any): void => {
-    addSet({
-      title: formik.values.title,
-      description: formik.values.description,
+  const createButtonClickHandler = (values: TermFormsValues): void => {
+    console.log({
+      title: values.title,
+      description: values.description,
       id: Date.now(),
-      termCards: terms.length,
+      termCards: values.termForms,
+    });
+
+    addSet({
+      title: values.title,
+      description: values.description,
+      id: Date.now(),
+      termCards: values.termForms,
     });
 
     navigate(-1);
   };
 
+  const initialValues: TermFormsValues = {
+    title: '',
+    description: '',
+    termForms: [],
+  };
+
   const formik = useFormik({
-    initialValues: {
-      title: '',
-      description: '',
-    },
-    validationSchema: Yup.object({
+    initialValues: initialValues,
+    validationSchema: Yup.object().shape({
       title: Yup.string()
         .max(40, 'Must be 40 characters or less')
         .required('This field cannot be empty'),
       description: Yup.string().max(100, 'Must be 100 characters or less'),
+      termForms: Yup.array().of(
+        Yup.object().shape({
+          term: Yup.string().required('This field cannot be empty'),
+          definition: Yup.string().required('This field cannot be empty'),
+          //example: Yup.string().required('This field cannot be empty'),
+          id: Yup.string(),
+        }),
+      ),
     }),
-    onSubmit: createButtonClickHandler,
+    onSubmit: (values: TermFormsValues) => createButtonClickHandler(values),
   });
 
   const addTermButtonHandler = () => {
-    setTerms([...terms, { term: '', definition: '', id: generateId() }]);
+    formik.setValues({
+      ...formik.values,
+      termForms: [
+        ...formik.values.termForms,
+        { term: '', definition: '', id: generateId() },
+      ],
+    });
   };
 
   return (
@@ -86,7 +108,7 @@ export default function CreateSet() {
           </Button>
         </Grid>
         <Grid item xs={6}>
-          <form id='set-form' onSubmit={formik.handleSubmit}>
+          <form id='set-form' onSubmit={formik.handleSubmit} noValidate>
             <SetTextField
               id='title'
               {...formik.getFieldProps('title')}
@@ -95,6 +117,8 @@ export default function CreateSet() {
               helperText={formik.touched.title && formik.errors.title}
               label='Title'
               variant='standard'
+              autoComplete='off'
+              required
               fullWidth
             />
             <SetTextField
@@ -110,6 +134,7 @@ export default function CreateSet() {
               label='Description'
               multiline
               variant='standard'
+              autoComplete='off'
               fullWidth
             />
           </form>
@@ -119,14 +144,9 @@ export default function CreateSet() {
         </Grid>
       </GridFormContainer>
       <Grid container rowSpacing={2}>
-        {terms.map((term: ITerm, index: number) => (
+        {formik.values.termForms.map((term: ITerm, index: number) => (
           <Grid item xs={12} key={term.id}>
-            <TermCard
-              termIndex={index}
-              term={term}
-              terms={terms}
-              setTerms={setTerms}
-            />
+            <TermCard formik={formik} termIndex={index} />
           </Grid>
         ))}
         <Grid

@@ -25,7 +25,7 @@ const SetCard: React.FC<SetCardProps> = ({ currentSet }) => {
           {currentSet.title}
         </Typography>
         <Typography color='text.secondary'>
-          {+currentSet.termCards} terms
+          {+currentSet.termCards.length} terms
         </Typography>
       </CardContent>
       <CardActions>
