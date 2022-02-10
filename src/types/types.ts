@@ -1,14 +1,14 @@
 export interface ITerm {
   term: string,
   definition: string,
-  //example: string,
+  example: string,
   id: string,
 }
 
 export interface ISet {
   title: string,
   description: string,
-  id: number,
+  id: string,
   termCards: ITerm[],
 }
 

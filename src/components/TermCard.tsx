@@ -55,7 +55,7 @@ const TermCard: FC<TermCardProps> = ({ formik, termIndex }) => {
               autoComplete='off'
             />
           </Grid>
-          {/* <Grid item xs={12}>
+          <Grid item xs={12}>
             <TextField
               {...formik.getFieldProps(`termForms[${termIndex}].example`)}
               value={formik.values.termForms[termIndex].example}
@@ -72,7 +72,7 @@ const TermCard: FC<TermCardProps> = ({ formik, termIndex }) => {
               fullWidth
               autoComplete='off'
             />
-          </Grid> */}
+          </Grid>
         </Grid>
       </CardContent>
     </Card>

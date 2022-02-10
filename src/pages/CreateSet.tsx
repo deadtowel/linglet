@@ -1,12 +1,11 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
 import { useSets } from '../hooks/useSets';
 import DragDrop from '../components/DragDrop';
 import { useNavigate } from 'react-router-dom';
 import TermCard from '../components/TermCard';
 import styled from '@emotion/styled';
 import { ITerm, TermFormsValues } from '../types/types';
-import { generateId } from '../utils/generateId';
+import { generateId } from '../utils';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -31,17 +30,10 @@ export default function CreateSet() {
   const navigate = useNavigate();
 
   const createButtonClickHandler = (values: TermFormsValues): void => {
-    console.log({
-      title: values.title,
-      description: values.description,
-      id: Date.now(),
-      termCards: values.termForms,
-    });
-
     addSet({
-      title: values.title,
-      description: values.description,
-      id: Date.now(),
+      title: values.title.trim(),
+      description: values.description.trim(),
+      id: generateId(),
       termCards: values.termForms,
     });
 
@@ -65,7 +57,15 @@ export default function CreateSet() {
         Yup.object().shape({
           term: Yup.string().required('This field cannot be empty'),
           definition: Yup.string().required('This field cannot be empty'),
-          //example: Yup.string().required('This field cannot be empty'),
+          example: Yup.string()
+            .required('This field cannot be empty')
+            .test(
+              'validate-example',
+              'The example does not contain term',
+              function (value) {
+                return true;
+              },
+            ),
           id: Yup.string(),
         }),
       ),
@@ -78,7 +78,7 @@ export default function CreateSet() {
       ...formik.values,
       termForms: [
         ...formik.values.termForms,
-        { term: '', definition: '', id: generateId() },
+        { term: '', definition: '', example: '', id: generateId() },
       ],
     });
   };

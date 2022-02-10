@@ -11,3 +11,7 @@ export const generateId = (): string => {
     s4()
   );
 };
+
+export function getModifiedStringArray(initialString: string, target: string): string[] {
+  return initialString.replace(target, '_').split('_');
+}

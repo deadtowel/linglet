@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import CreateSet from './pages/CreateSet';
 import Home from './pages/Home';
-import StudySet from './pages/LearnSet';
+import LearnSet from './pages/LearnSet';
 
 const StyledApp = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/create-set' element={<CreateSet />} />
-          <Route path='/set:setId' element={<StudySet />} />
+          <Route path='/set:setId' element={<LearnSet />} />
         </Routes>
       </MainContainer>
       <Footer />

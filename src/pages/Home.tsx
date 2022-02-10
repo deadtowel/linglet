@@ -31,9 +31,7 @@ export default function Home() {
           sets.map((set: ISet) => {
             return (
               <Grid item lg={3} key={set.id}>
-                <Link to={`/set${set.id}`}>
-                  <SetCard currentSet={set} />
-                </Link>
+                <SetCard currentSet={set} />
               </Grid>
             );
           })}
