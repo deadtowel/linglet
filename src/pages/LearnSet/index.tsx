@@ -10,7 +10,7 @@ import {
 
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSets } from '../../hooks/useSets';
+import useSets from '../../hooks/useSets';
 import { ISet } from '../../types/types';
 import useLearn from '../../hooks/useLearn';
 import LearnText from './LearnText';
@@ -56,6 +56,7 @@ const LearnSet: FC<LearnSetProps> = () => {
                       el={el}
                       index={index}
                       arr={arr}
+                      key={index}
                     />
                   ),
                 )}

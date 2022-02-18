@@ -10,7 +10,7 @@ import {
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { ISet } from '../../types/types';
 import { Link } from 'react-router-dom';
-import { useSets } from '../../hooks/useSets';
+import useSets from '../../hooks/useSets';
 
 interface SetCardProps {
   currentSet: ISet;
@@ -27,7 +27,7 @@ const SetCard: React.FC<SetCardProps> = ({ currentSet }) => {
     deleteSet(currentSet.id || '');
   };
 
-  const editBtnClickHandler = () => {};
+  //const editBtnClickHandler = () => {};
 
   return (
     <StyledCard variant='outlined'>
@@ -46,13 +46,11 @@ const SetCard: React.FC<SetCardProps> = ({ currentSet }) => {
         <Link to={`/set${currentSet.id}`}>
           <Button size='medium'>Learn</Button>
         </Link>
-        <IconButton
-          aria-label='edit'
-          size='medium'
-          onClick={editBtnClickHandler}
-        >
-          <EditIcon fontSize='inherit' />
-        </IconButton>
+        <Link to={`/edit-set${currentSet.id}`}>
+          <IconButton aria-label='edit' size='medium'>
+            <EditIcon fontSize='inherit' />
+          </IconButton>
+        </Link>
         <IconButton
           aria-label='delete'
           size='medium'

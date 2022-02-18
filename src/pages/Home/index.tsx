@@ -1,7 +1,7 @@
 import { Grid, Typography, Button, Container, Box } from '@mui/material';
 import styled from '@emotion/styled';
 import SetCard from './SetCard';
-import { useSets } from '../../hooks/useSets';
+import useSets from '../../hooks/useSets';
 import { ISet } from '../../types/types';
 import { Link } from 'react-router-dom';
 

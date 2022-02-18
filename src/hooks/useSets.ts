@@ -2,14 +2,24 @@ import { useEffect, useState } from 'react';
 import { ISet } from '../types/types';
 import { useAppSelector, useAppDispatch } from './useRedux'
 import { RootState } from '../redux/store';
-import { addSet as addSetAction, deleteSet as deleteSetAction, clearSets as clearSetsAction } from '../redux/setsSlice'
+import { addSet as addSetAction, deleteSet as deleteSetAction, clearSets as clearSetsAction, initSets } from '../redux/setsSlice'
 
-export const useSets = () => {
+export default function useSets() {
   const sets = useAppSelector((state: RootState) => state.sets.value)
   const dispatch = useAppDispatch()
 
   const addSet = (newSet: ISet) => {
     dispatch(addSetAction(newSet));
+  }
+
+  const editSet = (id: string, editedSet: ISet) => {
+    const copiedSets = [...sets];
+
+    const currSetIndex: number = sets.findIndex(set => set.id === id)
+
+    copiedSets.splice(currSetIndex, 1, editedSet);
+
+    dispatch(initSets(copiedSets));
   }
 
   const deleteSet = (id: string) => {
@@ -20,38 +30,5 @@ export const useSets = () => {
     dispatch(clearSetsAction());
   }
 
-  // useEffect(() => {
-  //     localStorage.setItem('sets', JSON.stringify(sets));
-  // }, [sets]);
-
-  // useEffect(() => {
-  //     setSets(JSON.parse(localStorage.getItem('sets') || '[]'))
-  //     console.log('use effect1', shouldUpdateSets);
-  //     //dispatch(setShouldUpdateSets(false));
-  //     console.log('use effect2', shouldUpdateSets);
-  // }, [shouldUpdateSets])
-
-  // const addSet = (newSet: ISet) => {
-  //     setSets([...sets, { ...newSet }]);
-  // }
-
-  // const deleteSet = (id: string) => {
-  //     const filteredSets = sets.filter(set => set.id !== id);
-  //     setSets(filteredSets);
-  //     //dispatch(setShouldUpdateSets(true));
-  //     console.log(shouldUpdateSets);
-  // }
-
-  // const clearSets = () => {
-  //     setSets([]);
-  // }
-
-
-
-
-
-
-
-
-  return { sets, addSet, deleteSet, clearSets };
+  return { sets, addSet, editSet, deleteSet, clearSets };
 }

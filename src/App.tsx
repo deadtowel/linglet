@@ -32,6 +32,7 @@ export default function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/create-set' element={<CreateEditSet />} />
+          <Route path='/edit-set:setId' element={<CreateEditSet edit />} />
           <Route path='/set:setId' element={<LearnSet />} />
         </Routes>
       </MainContainer>

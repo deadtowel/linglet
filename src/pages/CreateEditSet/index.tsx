@@ -1,5 +1,6 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { useSets } from '../../hooks/useSets';
+import useSets from '../../hooks/useSets';
+import useEdit from '../../hooks/useEdit';
 import DragDrop from '../../components/DragDrop';
 import { useNavigate } from 'react-router-dom';
 import TermCard from './TermCard';
@@ -8,7 +9,6 @@ import { ITerm, ISet } from '../../types/types';
 import { generateId } from '../../utils';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { FC } from 'react';
 
 const StyledCreateSet = styled.div`
   padding: 1rem 0 3rem;
@@ -30,37 +30,31 @@ const StyledButton = styled(Button)`
 `;
 
 interface CreateEditSetProps {
-  //initialValues: ISet;
+  edit: boolean;
 }
 
-// const defaultProps: CreateEditSetProps = {
-//   initialValues: {
-//     title: '',
-//     description: '',
-//     termCards: [],
-//   },
-// };
+const defaultProps: CreateEditSetProps = {
+  edit: false,
+};
 
-const CreateEditSet: FC<CreateEditSetProps> = () => {
-  const { addSet } = useSets();
+const CreateEditSet = ({ edit }: CreateEditSetProps) => {
+  const { setId, initialValues } = useEdit(edit);
+
+  const { addSet, editSet } = useSets();
 
   const navigate = useNavigate();
 
   const createButtonClickHandler = (values: ISet): void => {
-    addSet({
-      title: values.title.trim(),
-      description: values.description.trim(),
-      id: generateId(),
-      termCards: values.termCards,
-    });
+    if (edit) {
+      editSet(setId, values);
+    } else {
+      addSet({
+        ...values,
+        id: generateId(),
+      });
+    }
 
     navigate(-1);
-  };
-
-  const initialValues: ISet = {
-    title: '',
-    description: '',
-    termCards: [],
   };
 
   const formik = useFormik({
@@ -68,12 +62,17 @@ const CreateEditSet: FC<CreateEditSetProps> = () => {
     validationSchema: Yup.object().shape({
       title: Yup.string()
         .max(40, 'Must be 40 characters or less')
-        .required('This field cannot be empty'),
-      description: Yup.string().max(100, 'Must be 100 characters or less'),
+        .required('This field cannot be empty')
+        .trim(),
+      description: Yup.string()
+        .max(100, 'Must be 100 characters or less')
+        .trim(),
       termCards: Yup.array().of(
         Yup.object().shape({
-          term: Yup.string().required('This field cannot be empty'),
-          definition: Yup.string().required('This field cannot be empty'),
+          term: Yup.string().required('This field cannot be empty').trim(),
+          definition: Yup.string()
+            .required('This field cannot be empty')
+            .trim(),
           example: Yup.string()
             .required('This field cannot be empty')
             .test(
@@ -82,7 +81,9 @@ const CreateEditSet: FC<CreateEditSetProps> = () => {
               function (value) {
                 return Boolean(value?.includes(this.parent?.term));
               },
-            ),
+            )
+
+            .trim(),
           id: Yup.string(),
         }),
       ),
@@ -128,7 +129,7 @@ const CreateEditSet: FC<CreateEditSetProps> = () => {
             variant='contained'
             color='primary'
           >
-            Create
+            {edit ? 'Save' : 'Create'}
           </Button>
         </Grid>
         <Grid item xs={6}>
@@ -196,6 +197,6 @@ const CreateEditSet: FC<CreateEditSetProps> = () => {
   );
 };
 
-//CreateEditSet.defaultProps = defaultProps;
+CreateEditSet.defaultProps = defaultProps;
 
 export default CreateEditSet;
