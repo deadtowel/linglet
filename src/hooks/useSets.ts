@@ -1,36 +1,57 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { ISet } from '../types/types';
+import { useAppSelector, useAppDispatch } from './useRedux'
+import { RootState } from '../redux/store';
+import { addSet as addSetAction, deleteSet as deleteSetAction, clearSets as clearSetsAction } from '../redux/setsSlice'
 
 export const useSets = () => {
-    const [sets, setSets] = useState<ISet[]>([]);
+  const sets = useAppSelector((state: RootState) => state.sets.value)
+  const dispatch = useAppDispatch()
 
-    const getInitialSetsFromLocalStorage = useCallback((): void => {
-        if (localStorage.getItem('sets') !== undefined) {
-            const dataFromLocalStorage = localStorage.getItem('sets');
+  const addSet = (newSet: ISet) => {
+    dispatch(addSetAction(newSet));
+  }
 
-            if (dataFromLocalStorage) {
-                setSets(JSON.parse(dataFromLocalStorage));
-            }
-        } else {
-            localStorage.setItem('sets', JSON.stringify(sets));
-        }
-    }, []);
+  const deleteSet = (id: string) => {
+    dispatch(deleteSetAction(id));
+  }
 
-    useEffect(() => {
-        getInitialSetsFromLocalStorage();
-    }, []);
+  const clearSets = () => {
+    dispatch(clearSetsAction());
+  }
 
-    useEffect(() => {
-        localStorage.setItem('sets', JSON.stringify(sets));
-    }, [sets]);
+  // useEffect(() => {
+  //     localStorage.setItem('sets', JSON.stringify(sets));
+  // }, [sets]);
 
-    const addSet = (newSet: ISet) => {
-        setSets([...sets, { ...newSet }]);
-    }
+  // useEffect(() => {
+  //     setSets(JSON.parse(localStorage.getItem('sets') || '[]'))
+  //     console.log('use effect1', shouldUpdateSets);
+  //     //dispatch(setShouldUpdateSets(false));
+  //     console.log('use effect2', shouldUpdateSets);
+  // }, [shouldUpdateSets])
 
-    const clearSets = () => {
-        setSets([]);
-    }
+  // const addSet = (newSet: ISet) => {
+  //     setSets([...sets, { ...newSet }]);
+  // }
 
-    return { sets, setSets, addSet, clearSets };
+  // const deleteSet = (id: string) => {
+  //     const filteredSets = sets.filter(set => set.id !== id);
+  //     setSets(filteredSets);
+  //     //dispatch(setShouldUpdateSets(true));
+  //     console.log(shouldUpdateSets);
+  // }
+
+  // const clearSets = () => {
+  //     setSets([]);
+  // }
+
+
+
+
+
+
+
+
+  return { sets, addSet, deleteSet, clearSets };
 }

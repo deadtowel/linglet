@@ -45,43 +45,5 @@ export default function useLearn(currentSet): any {
       currentSet?.termCards[currentTermIndex]?.term,
     );
 
-  const getJsxElements = (
-    el: string,
-    index: number,
-    arr: string[],
-  ): React.ReactNode => {
-    if (index === arr.length - 1) {
-      return <span key={index}>{el}</span>;
-    } else {
-      return (
-        <span key={index}>
-          <span>{el}</span>
-          <form
-            id='learn-form'
-            onSubmit={formik.handleSubmit}
-            noValidate
-            style={{ display: 'inline-block' }}
-          >
-            <TextField
-              variant='outlined'
-              size='small'
-              id='termField'
-              {...formik.getFieldProps('termField')}
-              value={formik.values.termField}
-              error={
-                formik.touched.termField && Boolean(formik.errors.termField)
-              }
-              autoComplete='off'
-              required
-            ></TextField>
-          </form>
-        </span>
-      );
-    }
-  };
-
-  // console.log('Errors', formik.errors);
-  // console.log('Touched', formik.touched);
-
-  return { modifiedExampleStrArray, getJsxElements, currentTermIndex };
+  return { formik, modifiedExampleStrArray, currentTermIndex };
 }

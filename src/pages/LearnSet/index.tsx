@@ -5,15 +5,15 @@ import {
   CardContent,
   Divider,
   Grid,
-  TextField,
   Typography,
 } from '@mui/material';
 
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSets } from '../../hooks/useSets';
 import { ISet } from '../../types/types';
 import useLearn from '../../hooks/useLearn';
+import LearnText from './LearnText';
 
 const StyledGridContainer = styled(Grid)`
   max-width: 75%;
@@ -35,23 +35,7 @@ const LearnSet: FC<LearnSetProps> = () => {
     ? sets.find((set) => set.id === setId)
     : undefined;
 
-  // const prevBtnClickHandler = (): void => {
-  //   if (currentSet && currentTermIndex === 0)
-  //     setCurrentTermIndex(currentSet.termCards.length - 1);
-  //   else {
-  //     setCurrentTermIndex(currentTermIndex - 1);
-  //   }
-  // };
-
-  // const nextBtnClickHandler = (): void => {
-  //   if (currentSet && currentTermIndex === currentSet.termCards.length - 1)
-  //     setCurrentTermIndex(0);
-  //   else {
-  //     setCurrentTermIndex(currentTermIndex + 1);
-  //   }
-  // };
-
-  const { modifiedExampleStrArray, getJsxElements, currentTermIndex } =
+  const { formik, modifiedExampleStrArray, currentTermIndex } =
     useLearn(currentSet);
 
   return (
@@ -65,7 +49,16 @@ const LearnSet: FC<LearnSetProps> = () => {
           <Card variant='outlined'>
             <StyledCardContent>
               {modifiedExampleStrArray &&
-                modifiedExampleStrArray.map(getJsxElements)}
+                modifiedExampleStrArray.map(
+                  (el: string, index: number, arr: string[]) => (
+                    <LearnText
+                      formik={formik}
+                      el={el}
+                      index={index}
+                      arr={arr}
+                    />
+                  ),
+                )}
             </StyledCardContent>
             <Divider />
             <StyledCardContent>

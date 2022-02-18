@@ -8,12 +8,6 @@ export interface ITerm {
 export interface ISet {
   title: string,
   description: string,
-  id: string,
+  id?: string,
   termCards: ITerm[],
-}
-
-export interface TermFormsValues {
-  title: string;
-  description: string;
-  termForms: ITerm[];
 }

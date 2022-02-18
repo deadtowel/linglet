@@ -3,9 +3,10 @@ import styled from '@emotion/styled';
 import { Route, Routes } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
-import CreateSet from './pages/CreateSet';
+import CreateEditSet from './pages/CreateEditSet';
 import Home from './pages/Home';
 import LearnSet from './pages/LearnSet';
+import useInit from './hooks/useInit';
 
 const StyledApp = styled.div`
   display: flex;
@@ -21,14 +22,16 @@ const MainContainer = styled(Container)`
   padding: 1rem 0;
 `;
 
-function App() {
+export default function App() {
+  useInit();
+
   return (
     <StyledApp>
       <Header />
       <MainContainer>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/create-set' element={<CreateSet />} />
+          <Route path='/create-set' element={<CreateEditSet />} />
           <Route path='/set:setId' element={<LearnSet />} />
         </Routes>
       </MainContainer>
@@ -36,5 +39,3 @@ function App() {
     </StyledApp>
   );
 }
-
-export default App;

@@ -8,8 +8,9 @@ import {
   IconButton,
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
-import { ISet } from '../types/types';
+import { ISet } from '../../types/types';
 import { Link } from 'react-router-dom';
+import { useSets } from '../../hooks/useSets';
 
 interface SetCardProps {
   currentSet: ISet;
@@ -19,11 +20,15 @@ const StyledCard = styled(Card)`
   min-width: 275px;
 `;
 
-const actionClickHandler = (event: any) => {
-  event.preventDefault();
-};
-
 const SetCard: React.FC<SetCardProps> = ({ currentSet }) => {
+  const { deleteSet } = useSets();
+
+  const deleteBtnClickHandler = () => {
+    deleteSet(currentSet.id || '');
+  };
+
+  const editBtnClickHandler = () => {};
+
   return (
     <StyledCard variant='outlined'>
       <CardContent>
@@ -42,18 +47,18 @@ const SetCard: React.FC<SetCardProps> = ({ currentSet }) => {
           <Button size='medium'>Learn</Button>
         </Link>
         <IconButton
-          aria-label='delete'
-          size='medium'
-          onClick={actionClickHandler}
-        >
-          <DeleteIcon fontSize='inherit' />
-        </IconButton>
-        <IconButton
           aria-label='edit'
           size='medium'
-          onClick={actionClickHandler}
+          onClick={editBtnClickHandler}
         >
           <EditIcon fontSize='inherit' />
+        </IconButton>
+        <IconButton
+          aria-label='delete'
+          size='medium'
+          onClick={deleteBtnClickHandler}
+        >
+          <DeleteIcon fontSize='inherit' />
         </IconButton>
       </CardActions>
     </StyledCard>

@@ -1,19 +1,19 @@
 import { Grid, Typography, Button, Container, Box } from '@mui/material';
 import styled from '@emotion/styled';
-import SetCard from '../components/SetCard';
-import { useSets } from '../hooks/useSets';
-import { ISet } from '../types/types';
+import SetCard from './SetCard';
+import { useSets } from '../../hooks/useSets';
+import { ISet } from '../../types/types';
 import { Link } from 'react-router-dom';
+
+const StyledBox = styled(Box)`
+  margin: 1rem 0;
+  & > Button {
+    margin: 0 0.5rem;
+  }
+`;
 
 export default function Home() {
   const { sets, clearSets } = useSets();
-
-  const StyledBox = styled(Box)`
-    margin: 1rem 0;
-    & > Button {
-      margin: 0 0.5rem;
-    }
-  `;
 
   return (
     <div>

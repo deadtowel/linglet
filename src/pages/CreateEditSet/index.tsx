@@ -1,13 +1,14 @@
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { useSets } from '../hooks/useSets';
-import DragDrop from '../components/DragDrop';
+import { useSets } from '../../hooks/useSets';
+import DragDrop from '../../components/DragDrop';
 import { useNavigate } from 'react-router-dom';
-import TermCard from '../components/TermCard';
+import TermCard from './TermCard';
 import styled from '@emotion/styled';
-import { ITerm, TermFormsValues } from '../types/types';
-import { generateId } from '../utils';
+import { ITerm, ISet } from '../../types/types';
+import { generateId } from '../../utils';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { FC } from 'react';
 
 const StyledCreateSet = styled.div`
   padding: 1rem 0 3rem;
@@ -24,26 +25,42 @@ const SetTextField = styled(TextField)`
   }
 `;
 
-export default function CreateSet() {
+const StyledButton = styled(Button)`
+  margin-inline: 0.5rem;
+`;
+
+interface CreateEditSetProps {
+  //initialValues: ISet;
+}
+
+// const defaultProps: CreateEditSetProps = {
+//   initialValues: {
+//     title: '',
+//     description: '',
+//     termCards: [],
+//   },
+// };
+
+const CreateEditSet: FC<CreateEditSetProps> = () => {
   const { addSet } = useSets();
 
   const navigate = useNavigate();
 
-  const createButtonClickHandler = (values: TermFormsValues): void => {
+  const createButtonClickHandler = (values: ISet): void => {
     addSet({
       title: values.title.trim(),
       description: values.description.trim(),
       id: generateId(),
-      termCards: values.termForms,
+      termCards: values.termCards,
     });
 
     navigate(-1);
   };
 
-  const initialValues: TermFormsValues = {
+  const initialValues: ISet = {
     title: '',
     description: '',
-    termForms: [],
+    termCards: [],
   };
 
   const formik = useFormik({
@@ -53,7 +70,7 @@ export default function CreateSet() {
         .max(40, 'Must be 40 characters or less')
         .required('This field cannot be empty'),
       description: Yup.string().max(100, 'Must be 100 characters or less'),
-      termForms: Yup.array().of(
+      termCards: Yup.array().of(
         Yup.object().shape({
           term: Yup.string().required('This field cannot be empty'),
           definition: Yup.string().required('This field cannot be empty'),
@@ -61,25 +78,32 @@ export default function CreateSet() {
             .required('This field cannot be empty')
             .test(
               'validate-example',
-              'The example does not contain term',
+              'The example must contain term',
               function (value) {
-                return true;
+                return Boolean(value?.includes(this.parent?.term));
               },
             ),
           id: Yup.string(),
         }),
       ),
     }),
-    onSubmit: (values: TermFormsValues) => createButtonClickHandler(values),
+    onSubmit: (values: ISet) => createButtonClickHandler(values),
   });
 
   const addTermButtonHandler = () => {
     formik.setValues({
       ...formik.values,
-      termForms: [
-        ...formik.values.termForms,
+      termCards: [
+        ...formik.values.termCards,
         { term: '', definition: '', example: '', id: generateId() },
       ],
+    });
+  };
+
+  const deleteTermButtonHandler = () => {
+    formik.setValues({
+      ...formik.values,
+      termCards: [...formik.values.termCards.slice(0, -1)],
     });
   };
 
@@ -144,7 +168,7 @@ export default function CreateSet() {
         </Grid>
       </GridFormContainer>
       <Grid container rowSpacing={2}>
-        {formik.values.termForms.map((term: ITerm, index: number) => (
+        {formik.values.termCards.map((term: ITerm, index: number) => (
           <Grid item xs={12} key={term.id}>
             <TermCard formik={formik} termIndex={index} />
           </Grid>
@@ -156,11 +180,22 @@ export default function CreateSet() {
           justifyContent='center'
           alignItems='center'
         >
-          <Button variant='contained' onClick={() => addTermButtonHandler()}>
+          <StyledButton variant='contained' onClick={addTermButtonHandler}>
             Add card
-          </Button>
+          </StyledButton>
+          <StyledButton
+            variant='contained'
+            color='error'
+            onClick={deleteTermButtonHandler}
+          >
+            Delete last
+          </StyledButton>
         </Grid>
       </Grid>
     </StyledCreateSet>
   );
-}
+};
+
+//CreateEditSet.defaultProps = defaultProps;
+
+export default CreateEditSet;
